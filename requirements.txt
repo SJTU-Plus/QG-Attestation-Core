@@ -1,0 +1,2 @@
+base58==2.0.0
+pycryptodome==3.9.7
