@@ -15,9 +15,13 @@ pip3 install -r requirements.txt
 
 to be filled
 
+See `hash_attestation.py`
+
 ### Asymmetric Style
 
 to be filled
+
+See `ecdsa_attestation.py`
 
 ## Contribution
 
