@@ -3,6 +3,11 @@ from Crypto.Hash import HMAC, SHA256
 from base import AttestationBase
 
 
+def load_key(path):
+    from pathlib import Path
+    return Path(path).read_bytes()
+
+
 class HashAttestation(AttestationBase):
     def __init__(self, secret: bytes):
         self._secret = secret
