@@ -13,6 +13,10 @@ class CmacAttestation(AttestationBase):
     def __init__(self, secret: bytes, ciphermod=AES):
         self._secret = secret
         self._mod = ciphermod
+        if isinstance(ciphermod.key_size, int):
+            assert len(secret) == ciphermod.key_size
+        else:
+            assert len(secret) in ciphermod.key_size
 
     def _common(self, raw: bytes):
         c = CMAC.new(self._secret, ciphermod=self._mod)
@@ -32,7 +36,7 @@ if __name__ == "__main__":
     from pathlib import Path
     from Crypto.Random import get_random_bytes
 
-    secret = get_random_bytes(16)
+    secret = get_random_bytes(AES.key_size[-1])
     Path('csecret.bin').write_bytes(secret)
 
     a = CmacAttestation(secret)
