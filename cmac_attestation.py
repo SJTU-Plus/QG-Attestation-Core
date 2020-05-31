@@ -1,4 +1,5 @@
-from Crypto.Hash import HMAC, SHA256
+from Crypto.Hash import CMAC
+from Crypto.Cipher import AES
 
 from base import AttestationBase
 
@@ -8,15 +9,15 @@ def load_key(path):
     return Path(path).read_bytes()
 
 
-class HashAttestation(AttestationBase):
-    def __init__(self, secret: bytes, digestmod=SHA256):
+class CmacAttestation(AttestationBase):
+    def __init__(self, secret: bytes, ciphermod=AES):
         self._secret = secret
-        self._mod = digestmod
+        self._mod = ciphermod
 
     def _common(self, raw: bytes):
-        h = HMAC.new(self._secret, digestmod=self._mod)
-        h.update(raw)
-        return h
+        c = CMAC.new(self._secret, ciphermod=self._mod)
+        c.update(raw)
+        return c
 
     def _generate(self, raw: bytes) -> bytes:
         h = self._common(raw)
@@ -32,6 +33,6 @@ if __name__ == "__main__":
     from Crypto.Random import get_random_bytes
 
     secret = get_random_bytes(16)
-    Path('hsecret.bin').write_bytes(secret)
+    Path('csecret.bin').write_bytes(secret)
 
-    a = HashAttestation(secret)
+    a = CmacAttestation(secret)

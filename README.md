@@ -11,30 +11,42 @@ pip3 install -r requirements.txt
 
 ## Usage
 
-### Symmetric Style
-
-to be filled
-
-See `hash_attestation.py`
+### Symmetric Style (HMAC)
 
 ```
-In [4]: qq
-Out[4]: 19278604876
+In [13]: run hash_attestation.py
 
-In [5]: run hash_attestation.py
+In [14]: qq
+Out[14]: 42925309569021849
 
-In [6]: a.generate(qq)
-Out[6]: 'qfTV6enU8EbW1WQyLdc1Woj83H8oQFLWZ2isN4swKySbjos3y'
+In [15]: a.generate(qq)
+Out[15]: '2dLuxY8Pvqut3k9FJB3r8316JitsDxsLPMTB1ivxaCX1eMNuoT'
 
-In [7]: a.verify(qq, _)
-Out[7]: datetime.datetime(2020, 5, 30, 23, 40, 30)
+In [16]: x = _
+
+In [17]: a.verify(qq, x)
+Out[17]: datetime.datetime(2020, 5, 31, 12, 51, 34)
 ```
 
-### Asymmetric Style
+### Symmetric Style (CMAC)
 
-to be filled
+```
+In [22]: qq
+Out[22]: 42925309569021849
 
-See `ecdsa_attestation.py`
+In [23]: run cmac_attestation.py
+
+In [24]: a.generate(qq)
+Out[24]: '2K8pmFXQVuWT4k8s5WPnZU9EYDGZ'
+
+In [25]: a.verify(qq, _)
+Out[25]: datetime.datetime(2020, 5, 31, 12, 53, 50)
+
+In [26]: len('2K8pmFXQVuWT4k8s5WPnZU9EYDGZ')
+Out[26]: 28
+```
+
+### Asymmetric Style (ECDSA)
 
 ```
 In [8]: qq
