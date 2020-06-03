@@ -9,6 +9,8 @@ Install dependencies with
 pip3 install -r requirements.txt
 ```
 
+> For faster public key operations in Unix, you should install GMP in your system.
+
 ## Usage
 
 ### Symmetric Style (HMAC)
