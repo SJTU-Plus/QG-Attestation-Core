@@ -3,20 +3,19 @@ from Crypto.Hash import HMAC, SHA256
 from base import AttestationBase
 
 
-def load_key(path):
-    from pathlib import Path
-    return Path(path).read_bytes()
-
-
 class HashAttestation(AttestationBase):
     def __init__(self, secret: bytes, digestmod=SHA256):
         self._secret = secret
         self._mod = digestmod
 
+    @staticmethod
+    def load(path, *args, **kwargs):
+        from pathlib import Path
+        key = Path(path).read_bytes()
+        return HashAttestation(key, *args, **kwargs)
+
     def _common(self, raw: bytes):
-        h = HMAC.new(self._secret, digestmod=self._mod)
-        h.update(raw)
-        return h
+        return HMAC.new(self._secret, msg=raw, digestmod=self._mod)
 
     def _generate(self, raw: bytes) -> bytes:
         h = self._common(raw)

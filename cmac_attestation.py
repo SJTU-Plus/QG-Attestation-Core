@@ -4,11 +4,6 @@ from Crypto.Cipher import AES
 from base import AttestationBase
 
 
-def load_key(path):
-    from pathlib import Path
-    return Path(path).read_bytes()
-
-
 class CmacAttestation(AttestationBase):
     def __init__(self, secret: bytes, ciphermod=AES):
         self._secret = secret
@@ -18,10 +13,14 @@ class CmacAttestation(AttestationBase):
         else:
             assert len(secret) in ciphermod.key_size
 
+    @staticmethod
+    def load(path, *args, **kwargs):
+        from pathlib import Path
+        key = Path(path).read_bytes()
+        return CmacAttestation(key, *args, **kwargs)
+
     def _common(self, raw: bytes):
-        c = CMAC.new(self._secret, ciphermod=self._mod)
-        c.update(raw)
-        return c
+        return CMAC.new(self._secret, msg=raw, ciphermod=self._mod)
 
     def _generate(self, raw: bytes) -> bytes:
         h = self._common(raw)

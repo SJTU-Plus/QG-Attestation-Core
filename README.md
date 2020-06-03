@@ -14,51 +14,87 @@ pip3 install -r requirements.txt
 ### Symmetric Style (HMAC)
 
 ```
-In [13]: run hash_attestation.py
+In [13]: qq
+Out[13]: '123456789012'
 
-In [14]: qq
-Out[14]: 42925309569021849
+In [14]: run hash_attestation.py
 
-In [15]: a.generate(qq)
-Out[15]: '2dLuxY8Pvqut3k9FJB3r8316JitsDxsLPMTB1ivxaCX1eMNuoT'
+In [15]: att = HashAttestation.load('hsecret.bin')
 
-In [16]: x = _
+In [16]: x = att.generate(qq)
 
-In [17]: a.verify(qq, x)
-Out[17]: datetime.datetime(2020, 5, 31, 12, 51, 34)
+In [17]: len(x), x
+Out[17]: (49, 'u5Du366vSiUZsPEMf5ti79vozf53f8aD1kiGjs73QicckFbtS')
+
+In [18]: att.verify(qq, x)
+Out[18]: datetime.datetime(2020, 6, 3, 14, 0, 22)
+
+In [19]: att.verify(qq, x+'1') == None
+Out[19]: True
 ```
 
 ### Symmetric Style (CMAC)
 
 ```
-In [22]: qq
-Out[22]: 42925309569021849
+In [20]: qq
+Out[20]: '123456789012'
 
-In [23]: run cmac_attestation.py
+In [21]: run cmac_attestation.py
 
-In [24]: a.generate(qq)
-Out[24]: '2K8pmFXQVuWT4k8s5WPnZU9EYDGZ'
+In [22]: att = CmacAttestation.load('csecret.bin')
 
-In [25]: a.verify(qq, _)
-Out[25]: datetime.datetime(2020, 5, 31, 12, 53, 50)
+In [23]: x = att.generate(qq)
 
-In [26]: len('2K8pmFXQVuWT4k8s5WPnZU9EYDGZ')
-Out[26]: 28
+In [24]: len(x), x
+Out[24]: (28, '3QyzDFQLVXADo3RFySGPaucMjBv4')
+
+In [25]: att.verify(qq, x)
+Out[25]: datetime.datetime(2020, 6, 3, 14, 1, 17)
+
+In [26]: att.verify(qq, x+'1') == None
+Out[26]: True
 ```
 
 ### Asymmetric Style (ECDSA)
 
 ```
-In [8]: qq
-Out[8]: 19278604876
+In [27]: qq
+Out[27]: '123456789012'
 
-In [9]: run ecdsa_attestation.py
+In [28]: run ecdsa_attestation.py
 
-In [10]: a.generate(qq)
-Out[10]: 'MDKW9oLUDfL3K4AbFUMFq99QFjWJ9wwt5Z9zvDP3MPKzh5JktDYKovyRrwJ3cvEAc9KDNJvKEQH8kGnLUEkakC1oberBE'
+In [29]: att = EcdsaAttestation.load('private.pem')
 
-In [11]: a.verify(qq, _)
-Out[11]: datetime.datetime(2020, 5, 30, 23, 41, 14)
+In [30]: x = att.generate(qq)
+
+In [31]: len(x), x
+Out[31]:
+(93,
+ 'VAEbcjxJZqAwXkh2fFG4edd5jEtCnsGkV7AEmBi14K4EWfZ2cptkAiSez3PGLSfzf3GP5JYSLnpckHsSEdpmewGtWV1C4')
+
+In [32]: att.verify(qq, x)
+Out[32]: datetime.datetime(2020, 6, 3, 14, 1, 59)
+
+In [33]: att.verify(qq, x+'1') == None
+Out[33]: True
+```
+
+
+Verify Only
+```
+In [36]: qq
+Out[36]: '123456789012'
+
+In [37]: x
+Out[37]: 'VAEbcjxJZqAwXkh2fFG4edd5jEtCnsGkV7AEmBi14K4EWfZ2cptkAiSez3PGLSfzf3GP5JYSLnpckHsSEdpmewGtWV1C4'
+
+In [38]: att = EcdsaAttestation.load('public.pem', verify_only=True)
+
+In [39]: att.verify(qq, x)
+Out[39]: datetime.datetime(2020, 6, 3, 14, 1, 59)
+
+In [40]: att.verify(qq, x+'1') == None
+Out[40]: True
 ```
 
 ## Contribution

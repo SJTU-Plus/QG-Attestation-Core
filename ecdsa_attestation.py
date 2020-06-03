@@ -5,16 +5,17 @@ from Crypto.Signature import DSS
 from base import AttestationBase
 
 
-def load_key(path):
-    from pathlib import Path
-    return ECC.import_key(Path(path).read_text(encoding='utf-8'))
-
-
 class EcdsaAttestation(AttestationBase):
     def __init__(self, key: ECC.EccKey, verify_only=False):
         self._key = key
         if not verify_only:
             assert key.has_private()
+
+    @staticmethod
+    def load(path, *args, **kwargs):
+        from pathlib import Path
+        key = ECC.import_key(Path(path).read_text(encoding='utf-8'))
+        return EcdsaAttestation(key, *args, **kwargs)
 
     def _common(self, data):
         h = SHA256.new(data)
