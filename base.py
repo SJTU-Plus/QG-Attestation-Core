@@ -1,24 +1,25 @@
-from base58 import b58encode, b58decode
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
+
+from base58 import b58decode, b58encode
 
 
 class AttestationBase(metaclass=ABCMeta):
 
     @abstractmethod
     def _generate(self, raw: bytes) -> bytes:
-        pass
+        raise Exception("AttestationBase abstract method called")
 
     @abstractmethod
     def _verify(self, raw: bytes, quote: bytes):
-        pass
+        raise Exception("AttestationBase abstract method called")
 
     @staticmethod
     def _normalize(qq_number) -> bytes:
         no = int(qq_number)
         return int.to_bytes(no, 8, 'little')
 
-    def generate(self,  qq_number):
+    def generate(self, qq_number):
         qq_number = self._normalize(qq_number)
 
         ts = int(datetime.now().timestamp())
