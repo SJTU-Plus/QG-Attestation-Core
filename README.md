@@ -1,6 +1,6 @@
 # QG-Attestation-Core
 
-This is util for qgroup applicants attestation.
+This is a util for qgroup applicants attestation.
 
 ## Setup
 
@@ -99,6 +99,6 @@ Out[40]: True
 
 ## Contribution
 
-Issuses and Pull Requests are welcome.
+Issues and Pull Requests are welcome.
 
 Please `autopep8 -i *.py` before giving a pull request.
