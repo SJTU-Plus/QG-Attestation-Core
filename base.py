@@ -14,11 +14,6 @@ class AttestationBase(metaclass=ABCMeta):
         pass
 
     @staticmethod
-    def _rtimestamp(ts: bytes) -> datetime:
-        ts = int.from_bytes(ts, 'little')
-        return datetime.fromtimestamp(ts)
-
-    @staticmethod
     def _normalize(qq_number) -> bytes:
         no = int(qq_number)
         return int.to_bytes(no, 8, 'little')
