@@ -8,11 +8,11 @@ class AttestationBase(metaclass=ABCMeta):
 
     @abstractmethod
     def _generate(self, raw: bytes) -> bytes:
-        raise Exception("AttestationBase abstract method called")
+        raise NotImplementedError("AttestationBase abstract method called")
 
     @abstractmethod
     def _verify(self, raw: bytes, quote: bytes):
-        raise Exception("AttestationBase abstract method called")
+        raise NotImplementedError("AttestationBase abstract method called")
 
     @staticmethod
     def _normalize(qq_number) -> bytes:
