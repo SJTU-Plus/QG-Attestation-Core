@@ -1,9 +1,9 @@
-from io  import BytesIO
+from io import BytesIO
 import qrcode
 from base64 import b64encode
 
 
-def to_qrcode(data:str):
+def to_qrcode(data: str):
     qr = qrcode.make(data)
     buf = BytesIO()
     qr.save(buf, 'png')
