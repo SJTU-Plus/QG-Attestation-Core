@@ -1,21 +1,21 @@
-from Crypto.Hash import HMAC, SHA256
+from Crypto.Hash import BLAKE2b
 
 from base import AttestationBase
 
 
-class HashAttestation(AttestationBase):
-    def __init__(self, secret: bytes, digestmod=SHA256):
+class Blake2Attestation(AttestationBase):
+    def __init__(self, secret: bytes, digest_bits=192):
         self._secret = secret
-        self._mod = digestmod
+        self._digest_bits = digest_bits
 
     @staticmethod
     def load(path, *args, **kwargs):
         from pathlib import Path
         key = Path(path).read_bytes()
-        return HashAttestation(key, *args, **kwargs)
+        return Blake2Attestation(key, *args, **kwargs)
 
     def _common(self, raw: bytes):
-        return HMAC.new(self._secret, msg=raw, digestmod=self._mod)
+        return BLAKE2b.new(data=raw, digest_bits=self._digest_bits, key=self._secret)
 
     def _generate(self, raw: bytes) -> bytes:
         h = self._common(raw)
@@ -33,4 +33,4 @@ if __name__ == "__main__":
     secret = get_random_bytes(16)
     Path('hsecret.bin').write_bytes(secret)
 
-    a = HashAttestation(secret)
+    a = Blake2Attestation(secret)
