@@ -13,6 +13,29 @@ pip3 install -r requirements.txt
 
 ## Usage
 
+
+### Symmetric Style (Blake2b)
+
+```
+In [9]: qq
+Out[9]: '123456789012'
+
+In [10]: run blake2_attestation.py
+
+In [11]: att = Blake2Attestation.load('hsecret.bin')
+
+In [12]: x = att.generate(qq)
+
+In [13]: len(x), x
+Out[13]: (38, '9ZBm3iZtt2Cm3hXuwboP2dxagCAqTnw9kaGugx')
+
+In [14]: att.verify(qq, x)
+Out[14]: datetime.datetime(2020, 8, 20, 0, 45, 2)
+
+In [15]: att.verify(qq, x+'1') == None
+Out[15]: True
+```
+
 ### Symmetric Style (HMAC)
 
 ```
