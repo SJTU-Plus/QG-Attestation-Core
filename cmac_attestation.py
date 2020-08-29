@@ -1,7 +1,7 @@
 from Crypto.Hash import CMAC
 from Crypto.Cipher import AES
 
-from base import AttestationBase
+from .base import AttestationBase
 
 
 class CmacAttestation(AttestationBase):

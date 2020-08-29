@@ -1,6 +1,6 @@
 from Crypto.Hash import BLAKE2b
 
-from base import AttestationBase
+from .base import AttestationBase
 
 
 class Blake2Attestation(AttestationBase):
