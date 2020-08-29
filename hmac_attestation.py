@@ -1,6 +1,6 @@
 from Crypto.Hash import HMAC, SHA256
 
-from base import AttestationBase
+from .base import AttestationBase
 
 
 class HmacAttestation(AttestationBase):
