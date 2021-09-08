@@ -1,4 +1,4 @@
 base58==2.0.0
 pycryptodome==3.9.7
-Pillow==7.1.2
+Pillow==8.3.2
 qrcode==6.1
